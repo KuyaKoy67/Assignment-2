@@ -4,36 +4,16 @@
  */
 package com.carl.assignment2;
 
-import javafx.scene.paint.Color;
+import java.util.List;
 
 /**
  *
  * @author carln
  */
 public class CarRaceModel {
-    private CarType type;
-    private int number;
-    private double coordinateX;
-    private double coordinateY;
-    private double speed;
-    private Color color;
-    
-    public enum CarType {
-        HONDA, TOYOTA, SUZUKI, HYUNDAI
-    }
-
-    public void setCoordinateX(double coordinateX) {
-        this.coordinateX = coordinateX;
-    }
-
-    public CarType getType() {
-        return type;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-    
+    private List<CarModel> cars;
+    private List<CarModel> finishOrder;
+    private double finishLineX;
     
     
 }
