@@ -23,5 +23,16 @@ public class CarRaceModel {
         this.finishOrder = new ArrayList<>();
     }
     
+    /**
+     * method that updates the x position of the car
+     * @param car the car model
+     * @param x the position in the x coordinate
+     */
+    public void updateCarPosition(CarModel car, double x) {
+        car.setCoordinateX(x);
+    }
+    
+    public void recordFinish(CarModel car) {
         
+    }
 }
