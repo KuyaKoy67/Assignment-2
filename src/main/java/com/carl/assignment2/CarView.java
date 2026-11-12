@@ -50,6 +50,13 @@ public class CarView extends Group {
         getChildren().addAll(body, roof, window1, window2, plate, numberText, wheel1, wheel2);
     }
     
+    /**
+     * helper method that creates the wheels with the spoke line 
+     * and the rim
+     * @param centerX the center x
+     * @param centerY the center y
+     * @return the wheel in Group
+     */
     private Group createWheel(double centerX, double centerY) {
         Circle tire = new Circle(centerX, centerY, 11, Color.BLACK);
         Circle rim = new Circle(centerX, centerY, 7, Color.LIGHTGRAY);
@@ -59,13 +66,21 @@ public class CarView extends Group {
         return new Group(tire, rim, spoke);
     }
     
+    /**
+     * helper method that spins the wheels in animation
+     */
     public void spinWheels() {
         spin1 = createSpin(wheel1);
         spin2 = createSpin(wheel2);
         spin1.play();
         spin2.play();
     }
-
+    
+    /**
+     * helper method that calculates the amount of spin
+     * @param wheel the wheel
+     * @return the rotate translation 
+     */
     private RotateTransition createSpin(Group wheel) {
         RotateTransition spin = new RotateTransition(Duration.millis(500), wheel);
         spin.setByAngle(360);
