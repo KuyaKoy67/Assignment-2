@@ -4,6 +4,8 @@
  */
 package com.carl.assignment2;
 
+import com.carl.assignment2.CarModel.CarType;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,5 +17,11 @@ public class CarRaceModel {
     private List<CarModel> finishOrder;
     private double finishLineX;
     
+    public CarRaceModel(double finishLineX) {
+        this.finishLineX = finishLineX;
+        this.cars = new ArrayList<>();
+        this.finishOrder = new ArrayList<>();
+    }
     
+        
 }
