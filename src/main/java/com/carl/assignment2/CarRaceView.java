@@ -14,9 +14,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
 /**
@@ -36,6 +44,7 @@ public class CarRaceView {
     private MediaPlayer mediaPlayer;
     private Timeline slideshowTimeline;
     private int imageIndex = 0;
+    private BorderPane racePane;
 
     private String[] carImages = {
         "Red Car.png",
@@ -86,6 +95,32 @@ public class CarRaceView {
         slideshowTimeline.setOnFinished(e -> mediaPlayer.stop());
 
         slideshowTimeline.play();
+    }
+    
+    /**
+    * Builds the race screen: track, cars, controls and results area
+    * @param cars the car models from the race model
+    */
+    public void buildRacePane(List<CarModel> cars) {
+        // This is the track
+        Pane track = new Pane();
+        track.setPrefSize(800, 340);
+        track.setStyle("-fx-background-color: #3a3a3a;");
+
+        // These are the start and finish lines
+        Rectangle startBar = new Rectangle(0, 0, 40, 340);
+        startBar.setFill(Color.DARKGREEN);
+        Rectangle finishBar = new Rectangle(760, 0, 40, 340);
+        finishBar.setFill(Color.DARKGREEN);
+
+        Text startText = new Text(14, 120, "S\nT\nA\nR\nT");
+        Text finishText = new Text(774, 90, "A\nR\nR\nI\nV\nA\nL");
+        for (Text t : new Text[]{startText, finishText}) {
+            t.setFill(Color.WHITE);
+            t.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+            t.setTextAlignment(TextAlignment.CENTER);
+        }
+        track.getChildren().addAll(startBar, finishBar, startText, finishText);
     }
 
     /**
