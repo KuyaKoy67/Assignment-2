@@ -4,6 +4,7 @@ package com.carl.assignment2;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
+import javafx.scene.paint.Color;
 import javafx.scene.Scene;
 import javafx.util.Duration;
 
@@ -74,4 +75,38 @@ public class CarRaceController {
         //TODO: show results
     }
 
+    /**
+     * Shows the winner and the final order
+     */
+    private void showResults() {
+        CarModel winner = model.getWinner();
+        String text = "Race Finished!\n"
+                + "Congratulations! Car #" + winner.getNumber()
+                + " (" + getColorName(winner.getColor()) + ") is the winner!\n\n"
+                + "Final Results:\n";
+
+        List<CarModel> order = model.getFinishOrder();
+        for (int i = 0; i < order.size(); i++) {
+            CarModel car = order.get(i);
+            text += (i + 1) + ". Car #" + car.getNumber()
+                    + " (" + getColorName(car.getColor()) + ")\n";
+        }
+        view.setResults(text);
+    }
+
+    /**
+     * Converts a color to its name for the messages
+     * @param color the car color
+     * @return the color name
+     */
+    private String getColorName(Color color) {
+        if (color.equals(Color.RED)) {
+            return "Red";
+        } else if (color.equals(Color.GOLD)) {
+            return "Yellow";
+        } else if (color.equals(Color.GREEN)) {
+            return "Green";
+        }
+        return "Blue";
+    }
 }
