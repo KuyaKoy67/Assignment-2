@@ -6,6 +6,7 @@ package com.carl.assignment2;
 
 import java.util.List;
 import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -37,10 +38,10 @@ public class CarRaceView {
     private int imageIndex = 0;
 
     private String[] carImages = {
-        "/downloads/Red Car.png",
-        "/downloads/Yellow Car.png",
-        "/downloads/Blue Car.png",
-        "/downloads/Green Car.png"
+        "Red Car.png",
+        "Yellow Car.png",
+        "Blue Car.png",
+        "Green Car.png"
     };
     
     public CarRaceView() {
@@ -58,9 +59,18 @@ public class CarRaceView {
      * and plays music
      */
     public void showSlideshow() {
-        Media sound = new Media(getClass().getResource("/sounds/introForProject.mp3").toExternalForm());
+        Media sound = new Media(getClass().getResource("introForProject.mp3").toExternalForm());
         mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.setVolume(0);
         mediaPlayer.play();
+
+        Timeline fade = new Timeline(
+            new KeyFrame(Duration.seconds(0), new KeyValue(mediaPlayer.volumeProperty(), 0)),
+            new KeyFrame(Duration.seconds(1), new KeyValue(mediaPlayer.volumeProperty(), 1)),
+            new KeyFrame(Duration.seconds(7), new KeyValue(mediaPlayer.volumeProperty(), 1)),
+            new KeyFrame(Duration.seconds(8), new KeyValue(mediaPlayer.volumeProperty(), 0))
+        );
+        fade.play();
 
         imageIndex = 0;
         carImageView.setImage(new Image(getClass().getResourceAsStream(carImages[0])));
