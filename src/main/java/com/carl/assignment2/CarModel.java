@@ -15,16 +15,45 @@ public class CarModel {
     private int number;
     private double coordinateX;
     private double coordinateY;
+    private double startX;
+    private double startY;
     private double speed;
     private Color color;
 
-    public CarModel(CarType type, int number, double coordinateX, double coordinateY, double speed, Color color) {
+    public CarModel(CarType type, int number, double coordinateX, double coordinateY,
+            double startX, double startY, double speed, Color color) {
         this.type = type;
         this.number = number;
         this.coordinateX = coordinateX;
         this.coordinateY = coordinateY;
+        this.startX = startX;
+        this.startY = startY;
         this.speed = speed;
         this.color = color;
+    }
+
+    /**
+    * Puts the car back at its starting position
+    */
+    public void reset() {
+        coordinateX = startX;
+        coordinateY = startY;
+    }
+    
+    public double getCoordinateX() {
+        return coordinateX;
+    }
+
+    public double getCoordinateY() {
+        return coordinateY;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public Color getColor() {
+        return color;
     }
     
     public enum CarType {
@@ -42,7 +71,5 @@ public class CarModel {
     public int getNumber() {
         return number;
     }
-    
-    
     
 }
