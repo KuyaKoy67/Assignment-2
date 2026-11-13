@@ -159,6 +159,50 @@ public class CarRaceView {
         VBox controls = new VBox(15, buttons, speedBox);
         controls.setPadding(new Insets(15));
         controls.setPrefWidth(380);
+        
+        // Results on the bottom right
+        resultsLabel = new Label("Press Start to begin the race!");
+        resultsLabel.setWrapText(true);
+        VBox resultsBox = new VBox(resultsLabel);
+        resultsBox.setPadding(new Insets(15));
+        resultsBox.setPrefWidth(400);
+
+        HBox bottom = new HBox(20, controls, resultsBox);
+
+        racePane = new BorderPane();
+        racePane.setCenter(track);
+        racePane.setBottom(bottom);
+    }
+
+    public BorderPane getRacePane() {
+        return racePane;
+    }
+
+    public List<CarView> getCarViews() {
+        return carViews;
+    }   
+
+    public Button getStartBtn() {
+        return startBtn;
+    }
+
+    public Button getPauseBtn() {
+        return pauseBtn;
+    }
+    public Button getResetBtn() {
+        return resetBtn;
+    }
+
+    public Slider getSpeedSlider() {
+        return speedSlider;
+    }
+
+    /**
+    * Shows a message in the results area
+    * @param text the message
+    */
+    public void setResults(String text) {
+        resultsLabel.setText(text);
     }
 
     /**
