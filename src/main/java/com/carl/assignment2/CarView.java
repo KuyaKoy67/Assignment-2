@@ -88,5 +88,48 @@ public class CarView extends Group {
         spin.setInterpolator(Interpolator.LINEAR);
         return spin;
     }
+
+    /**
+     * Pauses the wheel spin
+     */
+    public void pauseWheels() {
+        if (spin1 != null) {
+            spin1.pause();
+            spin2.pause();
+        }
+    }
+
+    /**
+     * resumes the wheels
+     */
+    public void resumeWheels() {
+        if (spin1 != null) {
+            spin1.play();
+            spin2.play();
+        }
+    }
+
+    /**
+     * stops the wheels and resets them
+     */
+    public void stopWheels() {
+        if (spin1 != null) {
+            spin1.stop();
+            spin2.stop();
+        }
+        wheel1.setRotate(0);
+        wheel2.setRotate(0);
+    }
+
+    /**
+     * changes the wheel spin speed
+     * @param rate the speed multiplier
+     */
+    public void setWheelRate(double rate) {
+        if (spin1 != null) {
+            spin1.setRate(rate);
+            spin2.setRate(rate);
+        }
+    }
     
 }
