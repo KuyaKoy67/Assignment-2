@@ -174,6 +174,13 @@ public class CarRaceView {
         racePane.setBottom(bottom);
     }
 
+    /**
+     * Stops the slideshow sound
+     */
+    public void stopSound() {
+        mediaPlayer.stop();
+    }
+
     public BorderPane getRacePane() {
         return racePane;
     }

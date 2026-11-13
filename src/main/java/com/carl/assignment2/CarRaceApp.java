@@ -11,14 +11,18 @@ public class CarRaceApp extends Application {
 
     @Override
     public void start(Stage stage) {
+        CarRaceModel model = new CarRaceModel(570);
         CarRaceView view = new CarRaceView();
-        Scene scene = new Scene(view.getSlideshowPane(), 800, 500);
+        view.buildRacePane(model.getCars());
+
+        Scene scene = new Scene(view.getSlideshowPane(), 800, 520);
+        CarRaceController controller = new CarRaceController(model, view, scene);
 
         stage.setTitle("CarRace simulation");
         stage.setScene(scene);
         stage.show();
 
-        view.showSlideshow();
+        controller.startSlideshow();
     }
 
     public static void main(String[] args) {

@@ -22,6 +22,7 @@ public class CarRaceController {
         this.view = view;
         this.scene = scene;
         this.moves = new ArrayList<>();
+        setupControls();
     }
 
     /**
@@ -35,6 +36,9 @@ public class CarRaceController {
                 (obs, oldV, newV) -> changeSpeed(newV.doubleValue()));
     }
 
+    /**
+     * starts the race by creating the animations and the events
+     */
     private void startRace() {
         if (moves.isEmpty()) {
             // This creates the necessary animation
@@ -68,11 +72,18 @@ public class CarRaceController {
         }
     }
 
+    /**
+     * helper method that shows that a car has finished
+     * @param car the car
+     * @param carView the view of the car
+     */
     private void carFinished(CarModel car, CarView carView) {
         model.updateCarPosition(car, model.getFinishLineX());
         model.recordFinish(car);
         carView.stopWheels();
-        //TODO: show results
+        if (model.isRaceOver()) {
+            showResults();
+        }
     }
 
     /**
@@ -95,6 +106,58 @@ public class CarRaceController {
     }
 
     /**
+     * Plays the slideshow, then switches to the race screen
+     */
+    public void startSlideshow() {
+        view.showSlideshow();
+        view.getSlideshowTimeline().setOnFinished(e -> {
+            view.stopSound();
+            scene.setRoot(view.getRacePane());
+        });
+    }
+
+    /**
+     * Pauses the cars and the wheels
+     */
+    private void pauseRace() {
+        for (int i = 0; i < moves.size(); i++) {
+            if (moves.get(i).getStatus() == Animation.Status.RUNNING) {
+                moves.get(i).pause();
+                view.getCarViews().get(i).pauseWheels();
+            }
+        }
+    }
+
+    /**
+     * Puts everything back to the starting state
+     */
+    private void resetRace() {
+        for (TranslateTransition move : moves) {
+            move.stop();
+        }
+        moves.clear();
+        model.reset();
+        for (CarView carView : view.getCarViews()) {
+            carView.setTranslateX(0);
+            carView.stopWheels();
+        }
+        view.setResults("Press Start to begin the race!");
+    }
+
+    /**
+     * Changes the speed of the cars and wheels
+     * @param rate the speed multiplier from the slider
+     */
+    private void changeSpeed(double rate) {
+        for (TranslateTransition move : moves) {
+            move.setRate(rate);
+        }
+        for (CarView carView : view.getCarViews()) {
+            carView.setWheelRate(rate);
+        }
+    }
+
+    /**
      * Converts a color to its name for the messages
      * @param color the car color
      * @return the color name
@@ -102,7 +165,7 @@ public class CarRaceController {
     private String getColorName(Color color) {
         if (color.equals(Color.RED)) {
             return "Red";
-        } else if (color.equals(Color.GOLD)) {
+        } else if (color.equals(Color.YELLOW)) {
             return "Yellow";
         } else if (color.equals(Color.GREEN)) {
             return "Green";

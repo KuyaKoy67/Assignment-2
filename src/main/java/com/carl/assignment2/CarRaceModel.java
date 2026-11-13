@@ -30,7 +30,7 @@ public class CarRaceModel {
      */
     private void createCars() {
         cars.add(new CarModel(CarType.HONDA, 45, 0, 20, 1.0, Color.RED));
-        cars.add(new CarModel(CarType.TOYOTA, 15, 0, 100, 1.0, Color.YELLOW));
+        cars.add(new CarModel(CarType.TOYOTA, 54, 0, 100, 1.0, Color.YELLOW));
         cars.add(new CarModel(CarType.SUZUKI, 27, 0, 180, 1.0, Color.GREEN));
         cars.add(new CarModel(CarType.HYUNDAI, 15, 0, 260, 1.0, Color.BLUE));
     }
