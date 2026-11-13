@@ -21,13 +21,13 @@ public class CarModel {
     private Color color;
 
     public CarModel(CarType type, int number, double coordinateX, double coordinateY,
-            double startX, double startY, double speed, Color color) {
+            double speed, Color color) {
         this.type = type;
         this.number = number;
         this.coordinateX = coordinateX;
         this.coordinateY = coordinateY;
-        this.startX = startX;
-        this.startY = startY;
+        this.startX = coordinateX;
+        this.startY = coordinateY;
         this.speed = speed;
         this.color = color;
     }
