@@ -1,21 +1,32 @@
 package com.carl.assignment2;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
-import javafx.scene.paint.Color;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * Controller class that coordinates user interactions, car movement animations,
+ * speed adjustments, and race state updates between the model and view.
+ *
+ * @author carln
+ */
 public class CarRaceController {
     private CarRaceModel model;
     private CarRaceView view;
     private Scene scene;
     private List<TranslateTransition> moves;
 
+    /**
+     * Constructs a CarRaceController and binds UI controls to their event handlers
+     * @param model the CarRaceModel containing race state and car data
+     * @param view  the CarRaceView managing the UI and media playback
+     * @param scene the primary JavaFX Scene
+     */
     public CarRaceController(CarRaceModel model, CarRaceView view, Scene scene) {
         this.model = model;
         this.view = view;
@@ -25,7 +36,7 @@ public class CarRaceController {
     }
 
     /**
-     * Connects the buttons and the slider to their actions
+     * Connects the control buttons and speed slider to their action handlers.
      */
     private void setupControls() {
         view.getStartBtn().setOnAction(e -> startRace());
@@ -36,7 +47,8 @@ public class CarRaceController {
     }
 
     /**
-     * starts the race by creating the animations and the events
+     * Starts a new race with takeoff audio and car transitions, or resumes
+     * paused animations if a race is already in progress.
      */
     private void startRace() {
         if (moves.isEmpty()) {
@@ -63,8 +75,9 @@ public class CarRaceController {
                 move.play();
             }
             view.setResults("The race has started!");
-        } else {
-            // events after pausing
+        } else if (!model.isRaceOver()) {
+            // Resume events after pausing
+            view.resumeTakeoff();
             for (int i = 0; i < moves.size(); i++) {
                 if (moves.get(i).getStatus() == Animation.Status.PAUSED) {
                     moves.get(i).play();
@@ -75,9 +88,10 @@ public class CarRaceController {
     }
 
     /**
-     * helper method that shows that a car has finished
-     * @param car the car
-     * @param carView the view of the car
+     * Handles a car crossing the finish line, records its rank, stops its wheels,
+     * and displays final results once all cars finish.
+     * @param car the CarModel that finished
+     * @param carView the corresponding CarView graphic
      */
     private void carFinished(CarModel car, CarView carView) {
         model.updateCarPosition(car, model.getFinishLineX());
@@ -90,7 +104,7 @@ public class CarRaceController {
     }
 
     /**
-     * Shows the winner and the final order
+     * Formats and displays the winning car and final finishing order in the view.
      */
     private void showResults() {
         CarModel winner = model.getWinner();
@@ -109,7 +123,8 @@ public class CarRaceController {
     }
 
     /**
-     * Plays the slideshow, then switches to the race screen
+     * Starts the introductory slideshow and switches the scene root to the race
+     * screen once the slideshow completes.
      */
     public void startSlideshow() {
         view.showSlideshow();
@@ -120,9 +135,10 @@ public class CarRaceController {
     }
 
     /**
-     * Pauses the cars and the wheels
+     * Pauses all active car movements, wheel animations, and takeoff audio.
      */
     private void pauseRace() {
+        view.pauseTakeoff();
         for (int i = 0; i < moves.size(); i++) {
             if (moves.get(i).getStatus() == Animation.Status.RUNNING) {
                 moves.get(i).pause();
@@ -132,7 +148,8 @@ public class CarRaceController {
     }
 
     /**
-     * Puts everything back to the starting state
+     * Stops all animations and audio, clears transitions, and returns all cars
+     * to their starting positions.
      */
     private void resetRace() {
         view.stopTakeoff();
@@ -149,8 +166,8 @@ public class CarRaceController {
     }
 
     /**
-     * Changes the speed of the cars and wheels
-     * @param rate the speed multiplier from the slider
+     * Updates the playback rate of all car movement and wheel spin animations.
+     * @param rate the speed multiplier selected on the slider
      */
     private void changeSpeed(double rate) {
         for (TranslateTransition move : moves) {
@@ -162,9 +179,9 @@ public class CarRaceController {
     }
 
     /**
-     * Converts a color to its name for the messages
-     * @param color the car color
-     * @return the color name
+     * Converts a JavaFX Color object into a readable color name string.
+     * @param color the Color of the car
+     * @return the human-readable color name
      */
     private String getColorName(Color color) {
         if (color.equals(Color.RED)) {
