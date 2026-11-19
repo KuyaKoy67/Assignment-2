@@ -5,6 +5,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
+ * this is the application class to run the system
+ *
  * @author carln
  */
 public class CarRaceApp extends Application {

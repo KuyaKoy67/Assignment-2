@@ -28,6 +28,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
 /**
+ * This is how the view of the race will look like
  *
  * @author carln
  */

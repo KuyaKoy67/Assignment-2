@@ -10,7 +10,7 @@ import java.util.List;
 import javafx.scene.paint.Color;
 
 /**
- *
+ * This is how the race will look like
  * @author carln
  */
 public class CarRaceModel {
