@@ -16,6 +16,8 @@ public class CarRaceApp extends Application {
         view.buildRacePane(model.getCars());
 
         Scene scene = new Scene(view.getSlideshowPane(), 800, 520);
+        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+
         CarRaceController controller = new CarRaceController(model, view, scene);
 
         stage.setTitle("CarRace simulation");

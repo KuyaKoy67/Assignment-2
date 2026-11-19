@@ -56,12 +56,15 @@ public class CarRaceView {
 
     public CarRaceView() {
         Label greetingLabel = new Label("Hello and welcome to the Car Race!");
+        greetingLabel.getStyleClass().add("greeting-label");
+
         carImageView = new ImageView();
         carImageView.setFitWidth(400);
         carImageView.setPreserveRatio(true);
 
         slideshowPane = new VBox(20, greetingLabel, carImageView);
         slideshowPane.setAlignment(Pos.CENTER);
+        slideshowPane.getStyleClass().add("slideshow-pane");
     }
 
     /**
@@ -124,7 +127,7 @@ public class CarRaceView {
         // This is the track
         Pane track = new Pane();
         track.setPrefSize(800, 340);
-        track.setStyle("-fx-background-color: #3a3a3a;");
+        track.getStyleClass().add("track-pane");
 
         // These are the start and finish lines
         Rectangle startBar = new Rectangle(0, 0, 40, 340);
@@ -161,30 +164,46 @@ public class CarRaceView {
 
         // Controls on the bottom left
         startBtn = new Button("Start");
+        startBtn.setId("start-btn");
+
         pauseBtn = new Button("Pause");
+        pauseBtn.setId("pause-btn");
+
         resetBtn = new Button("Reset");
+        resetBtn.setId("reset-btn");
+
         HBox buttons = new HBox(10, startBtn, pauseBtn, resetBtn);
 
         speedSlider = new Slider(0.5, 3.0, 1.0);
+        Label speedTitle = new Label("Simulation Speed:");
+        speedTitle.getStyleClass().add("control-label");
+
         Label speedValue = new Label("1.0x");
+        speedValue.getStyleClass().add("control-label");
+
         speedSlider.valueProperty().addListener((obs, oldV, newV) ->
                 speedValue.setText(String.format("%.1fx", newV.doubleValue())));
-        HBox speedBox = new HBox(10, new Label("Simulation Speed:"), speedSlider, speedValue);
+        HBox speedBox = new HBox(10, speedTitle, speedSlider, speedValue);
+        speedBox.setAlignment(Pos.CENTER_LEFT);
 
         VBox controls = new VBox(15, buttons, speedBox);
-        controls.setPadding(new Insets(15));
+        controls.setPadding(new Insets(10));
         controls.setPrefWidth(380);
 
         // Results on the bottom right
         resultsLabel = new Label("Press Start to begin the race!");
         resultsLabel.setWrapText(true);
+        resultsLabel.getStyleClass().add("results-label");
+
         VBox resultsBox = new VBox(resultsLabel);
-        resultsBox.setPadding(new Insets(15));
+        resultsBox.getStyleClass().add("results-box");
         resultsBox.setPrefWidth(400);
 
         HBox bottom = new HBox(20, controls, resultsBox);
+        bottom.getStyleClass().add("bottom-panel");
 
         racePane = new BorderPane();
+        racePane.getStyleClass().add("race-pane");
         racePane.setCenter(track);
         racePane.setBottom(bottom);
     }
