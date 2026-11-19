@@ -84,6 +84,7 @@ public class CarRaceController {
         model.recordFinish(car);
         carView.stopWheels();
         if (model.isRaceOver()) {
+            view.stopTakeoff();
             showResults();
         }
     }
