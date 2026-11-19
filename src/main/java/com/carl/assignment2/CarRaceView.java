@@ -120,6 +120,24 @@ public class CarRaceView {
     }
 
     /**
+     * pauses the take off music
+     */
+    public void pauseTakeoff() {
+        if (takeoffPlayer != null) {
+            takeoffPlayer.pause();
+        }
+    }
+
+    /**
+     * resumes the take off music
+     */
+    public void resumeTakeoff() {
+        if (takeoffPlayer != null) {
+            takeoffPlayer.play();
+        }
+    }
+
+    /**
      * Builds the race screen: track, cars, controls and results area
      * @param cars the car models from the race model
      */
