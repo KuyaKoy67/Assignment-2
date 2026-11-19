@@ -1,6 +1,5 @@
 package com.carl.assignment2;
 
-
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
@@ -41,6 +40,9 @@ public class CarRaceController {
      */
     private void startRace() {
         if (moves.isEmpty()) {
+            // Play takeoff sound when the race starts
+            view.playTakeoff();
+
             // This creates the necessary animation
             double rate = view.getSpeedSlider().getValue();
 
@@ -132,6 +134,7 @@ public class CarRaceController {
      * Puts everything back to the starting state
      */
     private void resetRace() {
+        view.stopTakeoff();
         for (TranslateTransition move : moves) {
             move.stop();
         }

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.carl.assignment2;
 
 import java.util.ArrayList;
@@ -42,21 +38,22 @@ public class CarRaceView {
     private Button resetBtn;
     private Slider speedSlider;
     private Label resultsLabel;
-    
+
     private VBox slideshowPane;
     private ImageView carImageView;
     private MediaPlayer mediaPlayer;
+    private MediaPlayer takeoffPlayer;
     private Timeline slideshowTimeline;
     private int imageIndex = 0;
     private BorderPane racePane;
 
     private String[] carImages = {
-        "Red Car.png",
-        "Yellow Car.png",
-        "Blue Car.png",
-        "Green Car.png"
+            "Red Car.png",
+            "Yellow Car.png",
+            "Blue Car.png",
+            "Green Car.png"
     };
-    
+
     public CarRaceView() {
         Label greetingLabel = new Label("Hello and welcome to the Car Race!");
         carImageView = new ImageView();
@@ -66,22 +63,22 @@ public class CarRaceView {
         slideshowPane = new VBox(20, greetingLabel, carImageView);
         slideshowPane.setAlignment(Pos.CENTER);
     }
-    
+
     /**
      * Method that shows the slideshow at the start of the application
-     * and plays music
+     * and plays the guitar music
      */
     public void showSlideshow() {
-        Media sound = new Media(getClass().getResource("introForProject.mp3").toExternalForm());
+        Media sound = new Media(getClass().getResource("guitar.wav").toExternalForm());
         mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.setVolume(0);
         mediaPlayer.play();
 
         Timeline fade = new Timeline(
-            new KeyFrame(Duration.seconds(0), new KeyValue(mediaPlayer.volumeProperty(), 0)),
-            new KeyFrame(Duration.seconds(1), new KeyValue(mediaPlayer.volumeProperty(), 1)),
-            new KeyFrame(Duration.seconds(7), new KeyValue(mediaPlayer.volumeProperty(), 1)),
-            new KeyFrame(Duration.seconds(8), new KeyValue(mediaPlayer.volumeProperty(), 0))
+                new KeyFrame(Duration.seconds(0), new KeyValue(mediaPlayer.volumeProperty(), 0)),
+                new KeyFrame(Duration.seconds(1), new KeyValue(mediaPlayer.volumeProperty(), 1)),
+                new KeyFrame(Duration.seconds(7), new KeyValue(mediaPlayer.volumeProperty(), 1)),
+                new KeyFrame(Duration.seconds(8), new KeyValue(mediaPlayer.volumeProperty(), 0))
         );
         fade.play();
 
@@ -95,16 +92,34 @@ public class CarRaceView {
             }
         }));
         slideshowTimeline.setCycleCount(carImages.length);
-        
-        slideshowTimeline.setOnFinished(e -> mediaPlayer.stop());
-
         slideshowTimeline.play();
     }
-    
+
     /**
-    * Builds the race screen: track, cars, controls and results area
-    * @param cars the car models from the race model
-    */
+     * Plays the takeoff audio/media when the race starts
+     */
+    public void playTakeoff() {
+        if (takeoffPlayer != null) {
+            takeoffPlayer.stop();
+        }
+        Media takeoffMedia = new Media(getClass().getResource("TakeOff.mp4").toExternalForm());
+        takeoffPlayer = new MediaPlayer(takeoffMedia);
+        takeoffPlayer.play();
+    }
+
+    /**
+     * Stops the takeoff audio/media
+     */
+    public void stopTakeoff() {
+        if (takeoffPlayer != null) {
+            takeoffPlayer.stop();
+        }
+    }
+
+    /**
+     * Builds the race screen: track, cars, controls and results area
+     * @param cars the car models from the race model
+     */
     public void buildRacePane(List<CarModel> cars) {
         // This is the track
         Pane track = new Pane();
@@ -125,7 +140,7 @@ public class CarRaceView {
             t.setTextAlignment(TextAlignment.CENTER);
         }
         track.getChildren().addAll(startBar, finishBar, startText, finishText);
-        
+
         // These are for dashed lane lines
         for (int i = 1; i < 4; i++) {
             Line lane = new Line(40, 80 * i + 10, 760, 80 * i + 10);
@@ -133,7 +148,7 @@ public class CarRaceView {
             lane.getStrokeDashArray().addAll(15.0, 10.0);
             track.getChildren().add(lane);
         }
-        
+
         // These are for cars
         carViews = new ArrayList<>();
         for (CarModel car : cars) {
@@ -143,7 +158,7 @@ public class CarRaceView {
             carViews.add(carView);
             track.getChildren().add(carView);
         }
-        
+
         // Controls on the bottom left
         startBtn = new Button("Start");
         pauseBtn = new Button("Pause");
@@ -153,13 +168,13 @@ public class CarRaceView {
         speedSlider = new Slider(0.5, 3.0, 1.0);
         Label speedValue = new Label("1.0x");
         speedSlider.valueProperty().addListener((obs, oldV, newV) ->
-            speedValue.setText(String.format("%.1fx", newV.doubleValue())));
+                speedValue.setText(String.format("%.1fx", newV.doubleValue())));
         HBox speedBox = new HBox(10, new Label("Simulation Speed:"), speedSlider, speedValue);
 
         VBox controls = new VBox(15, buttons, speedBox);
         controls.setPadding(new Insets(15));
         controls.setPrefWidth(380);
-        
+
         // Results on the bottom right
         resultsLabel = new Label("Press Start to begin the race!");
         resultsLabel.setWrapText(true);
@@ -178,7 +193,9 @@ public class CarRaceView {
      * Stops the slideshow sound
      */
     public void stopSound() {
-        mediaPlayer.stop();
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
     }
 
     public BorderPane getRacePane() {
@@ -187,7 +204,7 @@ public class CarRaceView {
 
     public List<CarView> getCarViews() {
         return carViews;
-    }   
+    }
 
     public Button getStartBtn() {
         return startBtn;
@@ -196,6 +213,7 @@ public class CarRaceView {
     public Button getPauseBtn() {
         return pauseBtn;
     }
+
     public Button getResetBtn() {
         return resetBtn;
     }
@@ -205,9 +223,9 @@ public class CarRaceView {
     }
 
     /**
-    * Shows a message in the results area
-    * @param text the message
-    */
+     * Shows a message in the results area
+     * @param text the message
+     */
     public void setResults(String text) {
         resultsLabel.setText(text);
     }
