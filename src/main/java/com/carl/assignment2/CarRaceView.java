@@ -49,10 +49,10 @@ public class CarRaceView {
     private BorderPane racePane;
 
     private String[] carImages = {
-            "Red Car.png",
-            "Yellow Car.png",
-            "Blue Car.png",
-            "Green Car.png"
+            "Red Car.jpg",
+            "Yellow Car.jpg",
+            "Blue Car.jpg",
+            "Green Car.jpg"
     };
 
     public CarRaceView() {
